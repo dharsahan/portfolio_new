@@ -16,20 +16,19 @@ class Footer extends StatelessWidget {
   }
 }
 
-class _FooterIcon extends StatelessWidget {
-  final IconData icon;
+import 'package:flutter/material.dart';
 
-  const _FooterIcon(this.icon);
+class Footer extends StatelessWidget {
+  const Footer({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.backgroundColor,
-        shape: BoxShape.circle,
+      padding: const EdgeInsets.all(20),
+      color: Colors.grey[200],
+      child: const Center(
+        child: Text("© 2025 My Portfolio. All rights reserved."),
       ),
-      child: Icon(icon, color: AppColors.secondaryColor, size: 20),
     );
   }
 }

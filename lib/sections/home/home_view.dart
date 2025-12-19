@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
       width: double.infinity,
       color: AppColors.backgroundColor,
       padding: EdgeInsets.symmetric(
-        horizontal: size.width > 800 ? size.width * 0.1 : 24,
+        horizontal: size.width > 900 ? size.width * 0.1 : 24,
         vertical: 64,
       ),
       child: Center(
