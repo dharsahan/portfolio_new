@@ -12,8 +12,8 @@ class ContactView extends StatelessWidget {
       width: double.infinity,
       color: AppColors.backgroundColor,
       padding: EdgeInsets.symmetric(
-        horizontal: size.width > 800 ? size.width * 0.1 : 20,
-        vertical: 80,
+        horizontal: size.width > 800 ? size.width * 0.1 : 24,
+        vertical: 100,
       ),
       child: Column(
         children: [
@@ -24,27 +24,28 @@ class ContactView extends StatelessWidget {
                   color: AppColors.textColor,
                 ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 16),
           Container(
-            height: 4,
-            width: 60,
+            height: 6,
+            width: 80,
             decoration: BoxDecoration(
               color: AppColors.primaryColor,
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(3),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           Text(
             AppStrings.contactMsg,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: AppColors.secondaryColor,
+                  fontSize: 18,
                 ),
           ),
-          const SizedBox(height: 60),
+          const SizedBox(height: 80),
           LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth > 800) {
+              if (constraints.maxWidth > 900) {
                 return const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -78,21 +79,24 @@ class _ContactInfo extends StatelessWidget {
     return Column(
       children: [
         _ContactCard(
-          icon: Icons.email,
+          icon: Icons.email_rounded,
           title: AppStrings.email,
           subtitle: AppStrings.emailValue,
+          color: Colors.blue,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         _ContactCard(
-          icon: Icons.phone,
+          icon: Icons.phone_rounded,
           title: AppStrings.phone,
           subtitle: AppStrings.phoneValue,
+          color: Colors.green,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         _ContactCard(
-          icon: Icons.location_on,
+          icon: Icons.location_on_rounded,
           title: AppStrings.location,
           subtitle: AppStrings.locationValue,
+          color: Colors.red,
         ),
       ],
     );
@@ -103,59 +107,64 @@ class _ContactCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final Color color;
 
   const _ContactCard({
     required this.icon,
     required this.title,
     required this.subtitle,
+    required this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.primaryColor.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
+              color: color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: AppColors.primaryColor, size: 30),
+            child: Icon(icon, color: color, size: 32),
           ),
-          const SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: AppColors.textColor,
+          const SizedBox(width: 24),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppColors.textColor,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                subtitle,
-                style: const TextStyle(
-                  color: AppColors.secondaryColor,
-                  fontSize: 16,
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: AppColors.secondaryColor,
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -169,58 +178,73 @@ class _ContactForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.all(40),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            blurRadius: 30,
+            offset: const Offset(0, 15),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const TextField(
-            decoration: InputDecoration(
-              labelText: "Name",
-              border: OutlineInputBorder(),
+          const Text(
+            "Send a Message",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textColor,
             ),
           ),
+          const SizedBox(height: 30),
+          _buildTextField("Name"),
           const SizedBox(height: 20),
-          const TextField(
-            decoration: InputDecoration(
-              labelText: "Email",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          _buildTextField("Email"),
           const SizedBox(height: 20),
-          const TextField(
-            maxLines: 5,
-            decoration: InputDecoration(
-              labelText: "Message",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          _buildTextField("Message", maxLines: 5),
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(16),
               ),
+              elevation: 4,
+              shadowColor: AppColors.primaryColor.withValues(alpha: 0.3),
             ),
             child: const Text(
               AppStrings.sendMessage,
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, {int maxLines = 1}) {
+    return TextField(
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: AppColors.secondaryColor),
+        filled: true,
+        fillColor: AppColors.backgroundColor,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       ),
     );
   }

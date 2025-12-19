@@ -14,101 +14,121 @@ class HomeView extends StatelessWidget {
       width: double.infinity,
       color: AppColors.backgroundColor,
       padding: EdgeInsets.symmetric(
-        horizontal: size.width > 800 ? size.width * 0.1 : 20,
-        vertical: 50,
+        horizontal: size.width > 800 ? size.width * 0.1 : 24,
+        vertical: 64,
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth > 800) {
-            return const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(child: _HomeContent()),
-                SizedBox(width: 40),
-                Expanded(child: _HomeImage()),
-              ],
-            );
-          } else {
-            return const Column(
-              children: [
-                _HomeImage(),
-                SizedBox(height: 40),
-                _HomeContent(),
-              ],
-            );
-          }
-        },
+      child: Center(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth > 900) {
+              return const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: _HomeContent()),
+                  SizedBox(width: 80),
+                  _HomeImage(),
+                ],
+              );
+            } else {
+              return const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _HomeImage(),
+                  SizedBox(height: 60),
+                  _HomeContent(textAlign: TextAlign.center),
+                ],
+              );
+            }
+          },
+        ),
       ),
     );
   }
 }
 
 class _HomeContent extends StatelessWidget {
-  const _HomeContent();
+  final TextAlign textAlign;
+
+  const _HomeContent({this.textAlign = TextAlign.start});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: textAlign == TextAlign.center ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           AppStrings.hello,
-          style: Theme.of(context).textTheme.displayMedium?.copyWith(
+          textAlign: textAlign,
+          style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 color: AppColors.textColor,
                 fontWeight: FontWeight.w900,
-                letterSpacing: -1.5,
               ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
         Text(
           AppStrings.role,
+          textAlign: textAlign,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.bold,
               ),
         ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 32),
         Container(
-          padding: const EdgeInsets.only(left: 20),
-          decoration: const BoxDecoration(
-            border: Border(
-              left: BorderSide(color: AppColors.secondaryColor, width: 3),
-            ),
-          ),
+          padding: textAlign == TextAlign.start
+              ? const EdgeInsets.only(left: 20)
+              : const EdgeInsets.symmetric(horizontal: 20),
+          decoration: textAlign == TextAlign.start
+              ? const BoxDecoration(
+                  border: Border(
+                    left: BorderSide(color: AppColors.secondaryColor, width: 3),
+                  ),
+                )
+              : null,
           child: Text(
             AppStrings.intro,
+            textAlign: textAlign,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: AppColors.secondaryColor,
                   height: 1.8,
                   fontSize: 18,
-                  fontStyle: FontStyle.italic,
                 ),
           ),
         ),
-        const SizedBox(height: 50),
-        Row(
+        const SizedBox(height: 48),
+        Wrap(
+          alignment: textAlign == TextAlign.center ? WrapAlignment.center : WrapAlignment.start,
+          spacing: 20,
+          runSpacing: 20,
           children: [
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.textColor,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                elevation: 10,
+                elevation: 4,
+                shadowColor: AppColors.primaryColor.withValues(alpha: 0.4),
               ),
               child: const Text(
                 AppStrings.hireMe,
-                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(width: 20),
-            TextButton(
+            OutlinedButton(
               onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                side: const BorderSide(color: AppColors.textColor, width: 2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: const [
                   Text(
                     AppStrings.downloadCv,
@@ -116,11 +136,10 @@ class _HomeContent extends StatelessWidget {
                       color: AppColors.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Icon(Icons.arrow_forward, color: AppColors.textColor),
+                  SizedBox(width: 8),
+                  Icon(Icons.download, color: AppColors.textColor, size: 20),
                 ],
               ),
             ),
@@ -137,24 +156,26 @@ class _HomeImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
-      width: 400,
+      height: 350,
+      width: 350,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            color: AppColors.primaryColor.withValues(alpha: 0.2),
+            blurRadius: 40,
+            offset: const Offset(0, 20),
           ),
         ],
-        border: Border.all(color: AppColors.primaryColor, width: 4),
-        image: const DecorationImage(
-          image: NetworkImage(
-            'https://media.licdn.com/dms/image/v2/D4E03AQHzs-Pu_yB94A/profile-displayphoto-scale_200_200/B4EZn7W0t0HcAY-/0/1760858707065?e=1767225600&v=beta&t=j7KqYVudt06M--GRQ9RuHjrDlzZ-c1xDF4qNTmMG-28',
-          ),
+        border: Border.all(color: Colors.white, width: 8),
+      ),
+      child: ClipOval(
+        child: Image.network(
+          'https://media.licdn.com/dms/image/v2/D4E03AQHzs-Pu_yB94A/profile-displayphoto-scale_200_200/B4EZn7W0t0HcAY-/0/1760858707065?e=1767225600&v=beta&t=j7KqYVudt06M--GRQ9RuHjrDlzZ-c1xDF4qNTmMG-28',
           fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+            Container(color: Colors.grey[200], child: const Icon(Icons.person, size: 100, color: Colors.grey)),
         ),
       ),
     );
