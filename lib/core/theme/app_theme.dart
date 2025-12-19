@@ -9,12 +9,10 @@ class AppTheme {
       primary: AppColors.primaryColor,
       secondary: AppColors.accentColor,
       surface: AppColors.surfaceColor,
-      background: AppColors.backgroundColor,
       error: AppColors.errorColor,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
       onSurface: AppColors.textColor,
-      onBackground: AppColors.textColor,
     ),
     scaffoldBackgroundColor: AppColors.backgroundColor,
     fontFamily: 'Roboto', // Defaulting to Roboto which is safe on web
@@ -65,12 +63,12 @@ class AppTheme {
         ),
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColors.surfaceColor,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.withOpacity(0.1)),
+        side: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
       ),
     ),
   );
