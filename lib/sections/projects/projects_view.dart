@@ -154,7 +154,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 30,
             offset: const Offset(0, 15),
           ),
@@ -168,7 +168,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor.withValues(alpha: 0.1),
+                  color: AppColors.primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.bar_chart, color: AppColors.primaryColor, size: 28),
@@ -225,7 +225,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
                         value: value,
                         strokeWidth: 8,
                         strokeCap: StrokeCap.round,
-                        backgroundColor: color.withValues(alpha: 0.1),
+                        backgroundColor: color.withOpacity(0.1),
                         color: color,
                       ),
                     ),
@@ -297,9 +297,9 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
-            color: Colors.orange.withValues(alpha: 0.1),
+            color: Colors.orange.withOpacity(0.1),
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+            border: Border.all(color: Colors.orange.withOpacity(0.3)),
           ),
           child: Row(
             children: [
@@ -328,7 +328,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 30,
             offset: const Offset(0, 15),
           ),
@@ -342,7 +342,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.accentColor.withValues(alpha: 0.1),
+                  color: AppColors.accentColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.history, color: AppColors.accentColor, size: 28),
@@ -407,7 +407,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: statusColor.withValues(alpha: 0.1),
+                      color: statusColor.withOpacity(0.1),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(

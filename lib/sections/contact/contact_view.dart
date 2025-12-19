@@ -125,7 +125,7 @@ class _ContactCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -136,7 +136,7 @@ class _ContactCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
+              color: color.withOpacity(0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(icon, color: color, size: 32),
@@ -184,7 +184,7 @@ class _ContactForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 30,
             offset: const Offset(0, 15),
           ),
@@ -216,7 +216,7 @@ class _ContactForm extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               elevation: 4,
-              shadowColor: AppColors.primaryColor.withValues(alpha: 0.3),
+              shadowColor: AppColors.primaryColor.withOpacity(0.3),
             ),
             child: const Text(
               AppStrings.sendMessage,

@@ -77,7 +77,7 @@ class _AboutImage extends StatelessWidget {
         color: AppColors.backgroundColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 30,
             offset: const Offset(0, 15),
           ),
@@ -105,7 +105,7 @@ class _AboutImage extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withValues(alpha: 0.3),
+                    Colors.black.withOpacity(0.3),
                   ],
                 ),
               ),

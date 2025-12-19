@@ -111,7 +111,7 @@ class _HomeContent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 elevation: 4,
-                shadowColor: AppColors.primaryColor.withValues(alpha: 0.4),
+                shadowColor: AppColors.primaryColor.withOpacity(0.4),
               ),
               child: const Text(
                 AppStrings.hireMe,
@@ -163,7 +163,7 @@ class _HomeImage extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryColor.withValues(alpha: 0.2),
+            color: AppColors.primaryColor.withOpacity(0.2),
             blurRadius: 40,
             offset: const Offset(0, 20),
           ),
