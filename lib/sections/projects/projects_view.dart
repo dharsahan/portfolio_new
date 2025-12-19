@@ -23,7 +23,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1000),
     );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
@@ -51,6 +51,9 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
             _isLoading = false;
           });
         }
+      } else {
+        // Handle error gracefully
+        if (mounted) setState(() => _isLoading = false);
       }
     } catch (e) {
       debugPrint('Error fetching LeetCode data: $e');
@@ -76,8 +79,8 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
       width: double.infinity,
       color: AppColors.backgroundColor,
       padding: EdgeInsets.symmetric(
-        horizontal: size.width > 800 ? size.width * 0.1 : 20,
-        vertical: 80,
+        horizontal: size.width > 800 ? size.width * 0.1 : 24,
+        vertical: 100,
       ),
       child: _isLoading 
           ? const Center(child: CircularProgressIndicator(color: AppColors.primaryColor))
@@ -94,16 +97,16 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
                         color: AppColors.textColor,
                       ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 16),
                 Container(
-                  height: 4,
-                  width: 60,
+                  height: 6,
+                  width: 80,
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(3),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
                 const Text(
                   "LeetCode ID: dharshanbalaji83",
                   style: TextStyle(
@@ -115,10 +118,10 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
               ],
             ),
           ),
-          const SizedBox(height: 60),
+          const SizedBox(height: 80),
           LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth > 900) {
+              if (constraints.maxWidth > 1000) {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -145,42 +148,55 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
 
   Widget _buildStatsCard() {
     return Container(
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.all(40),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            blurRadius: 30,
+            offset: const Offset(0, 15),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Problem Solving Stats",
-            style: TextStyle(
-              color: AppColors.textColor,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.bar_chart, color: AppColors.primaryColor, size: 28),
+              ),
+              const SizedBox(width: 16),
+              const Text(
+                "Problem Solving",
+                style: TextStyle(
+                  color: AppColors.textColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 40),
           Wrap(
             alignment: WrapAlignment.spaceAround,
-            spacing: 10,
+            spacing: 20,
             runSpacing: 20,
             children: [
               _buildCircularIndicator("Easy", _stats['easySolved'] ?? 0, _stats['totalEasy'] ?? 1, Colors.teal),
               _buildCircularIndicator("Medium", _stats['mediumSolved'] ?? 0, _stats['totalMedium'] ?? 1, Colors.orange),
-              _buildCircularIndicator("Hard", _stats['hardSolved'] ?? 0, _stats['totalHard'] ?? 1, Colors.red),
+              _buildCircularIndicator("Hard", _stats['hardSolved'] ?? 0, _stats['totalHard'] ?? 1, AppColors.errorColor),
             ],
           ),
-          const SizedBox(height: 30),
-          const Divider(color: Colors.grey),
+          const SizedBox(height: 40),
+          const Divider(color: Color(0xFFE2E8F0)),
           const SizedBox(height: 20),
           _buildTotalSolved(),
         ],
@@ -192,22 +208,24 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
     return Column(
       children: [
         TweenAnimationBuilder(
-          tween: Tween<double>(begin: 0, end: solved / total),
+          tween: Tween<double>(begin: 0, end: total > 0 ? solved / total : 0),
           duration: const Duration(seconds: 2),
+          curve: Curves.easeOutQuart,
           builder: (context, double value, child) {
             return SizedBox(
-              height: 85,
-              width: 85,
+              height: 100,
+              width: 100,
               child: Stack(
                 children: [
                   Center(
                     child: SizedBox(
-                      height: 85,
-                      width: 85,
+                      height: 100,
+                      width: 100,
                       child: CircularProgressIndicator(
                         value: value,
                         strokeWidth: 8,
-                        backgroundColor: Colors.grey[200],
+                        strokeCap: StrokeCap.round,
+                        backgroundColor: color.withValues(alpha: 0.1),
                         color: color,
                       ),
                     ),
@@ -220,15 +238,15 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
                           "$solved",
                           style: const TextStyle(
                             color: AppColors.textColor,
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           "/$total",
                           style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 10,
+                            color: Colors.grey[500],
+                            fontSize: 12,
                           ),
                         ),
                       ],
@@ -239,7 +257,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
             );
           },
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 16),
         Text(
           label,
           style: TextStyle(
@@ -269,7 +287,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
                 "${_stats['totalSolved'] ?? 0}",
                 style: const TextStyle(
                   color: AppColors.textColor,
-                  fontSize: 32,
+                  fontSize: 36,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -277,18 +295,25 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
             color: Colors.orange.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: Colors.orange),
+            border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
           ),
-          child: Text(
-            "Rank: ${_stats['ranking'] ?? 'N/A'}",
-            style: const TextStyle(
-              color: Colors.orange,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            children: [
+              const Icon(Icons.emoji_events, color: Colors.orange, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                "Rank: ${_stats['ranking'] ?? 'N/A'}",
+                style: const TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -297,32 +322,51 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
 
   Widget _buildRecentActivity() {
     return Container(
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.all(40),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            blurRadius: 30,
+            offset: const Offset(0, 15),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Recent Activity",
-            style: TextStyle(
-              color: AppColors.textColor,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.accentColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.history, color: AppColors.accentColor, size: 28),
+              ),
+              const SizedBox(width: 16),
+              const Text(
+                "Recent Activity",
+                style: TextStyle(
+                  color: AppColors.textColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
           if (_recentActivities.isEmpty)
-            const Text("No recent activity found.")
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                "No recent activity found or API unavailable.",
+                style: TextStyle(color: Colors.grey[500]),
+              ),
+            )
           else
             ListView.builder(
               shrinkWrap: true,
@@ -339,23 +383,24 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
   }
 
   Widget _buildActivityItem(Map<String, dynamic> activity, int index) {
-    Color statusColor = activity['statusDisplay'] == 'Accepted' ? Colors.teal : Colors.red;
+    Color statusColor = activity['statusDisplay'] == 'Accepted' ? Colors.teal : AppColors.errorColor;
 
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: 0, end: 1),
-      duration: Duration(milliseconds: 500 + (index * 200)),
+      duration: Duration(milliseconds: 500 + (index * 100)),
+      curve: Curves.easeOut,
       builder: (context, double value, child) {
         return Transform.translate(
           offset: Offset(0, 20 * (1 - value)),
           child: Opacity(
             opacity: value,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              padding: const EdgeInsets.all(15),
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.grey[200]!),
+                color: AppColors.backgroundColor,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.transparent),
               ),
               child: Row(
                 children: [
@@ -371,7 +416,7 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
                       size: 20,
                     ),
                   ),
-                  const SizedBox(width: 15),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,17 +425,35 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
                           activity['title'],
                           style: const TextStyle(
                             color: AppColors.textColor,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             fontSize: 16,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          "${activity['lang']} • ${_getTimeAgo(activity['timestamp'])}",
-                          style: const TextStyle(
-                            color: AppColors.secondaryColor,
-                            fontSize: 12,
-                          ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Text(
+                              activity['lang'],
+                              style: const TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                              child: Icon(Icons.circle, size: 4, color: Colors.grey[400]),
+                            ),
+                            Text(
+                              _getTimeAgo(activity['timestamp']),
+                              style: const TextStyle(
+                                color: AppColors.secondaryColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -405,18 +468,22 @@ class _LeetCodeViewState extends State<LeetCodeView> with TickerProviderStateMix
   }
 
   String _getTimeAgo(String timestamp) {
-    final date = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
-    final now = DateTime.now();
-    final difference = now.difference(date);
+    try {
+      final date = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
+      final now = DateTime.now();
+      final difference = now.difference(date);
 
-    if (difference.inDays > 0) {
-      return "${difference.inDays} days ago";
-    } else if (difference.inHours > 0) {
-      return "${difference.inHours} hours ago";
-    } else if (difference.inMinutes > 0) {
-      return "${difference.inMinutes} minutes ago";
-    } else {
-      return "Just now";
+      if (difference.inDays > 0) {
+        return "${difference.inDays}d ago";
+      } else if (difference.inHours > 0) {
+        return "${difference.inHours}h ago";
+      } else if (difference.inMinutes > 0) {
+        return "${difference.inMinutes}m ago";
+      } else {
+        return "Just now";
+      }
+    } catch (e) {
+      return "";
     }
   }
 }

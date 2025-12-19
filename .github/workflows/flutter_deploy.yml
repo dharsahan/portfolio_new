@@ -32,7 +32,12 @@ jobs:
       # you may need to set the base-href:
       # run: flutter build web --release --base-href "/repo-name/"
       - name: Build Web
-        run: flutter build web --release --base-href "/portfolio_new/" 
+        run: flutter build web --release --base-href "/portfolio_new/"
+
+      # Add .nojekyll file to prevent GitHub Pages from processing the site with Jekyll
+      # This is crucial for Flutter web apps as Jekyll ignores files/folders starting with underscore
+      - name: Add .nojekyll file
+        run: touch ./build/web/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
